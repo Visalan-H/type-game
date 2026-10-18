@@ -1,4 +1,5 @@
 node_modules/
+play/
 .env
 .env.*
 dist/
@@ -11,3 +12,4 @@ build/
 *.dll
 *.zip
 *.iso
+.claude/
