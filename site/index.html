@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>type-game</title>
+  <meta name="description" content="Games that run inside TypeScript's type system">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./">type-game</a>
+    <a class="site-link" href="https://github.com/Visalan-H/type-game">GitHub</a>
+  </header>
+  <main class="landing">
+    <section class="hero">
+      <h1 class="hero-title">type-game</h1>
+      <p class="pitch">Games that run inside TypeScript's type system</p>
+    </section>
+    <ul class="cards">
+      <li>
+        <a class="card" href="tic-tac-toe.html">
+          <span class="card-title">Tic-tac-toe</span>
+          <span class="card-text">You are X. TypeScript is O, and it has never lost.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="hangman.html">
+          <span class="card-title">Hangman</span>
+          <span class="card-text">Guess the secret word with six lives.</span>
+        </a>
+      </li>
+    </ul>
+    <section class="how">
+      <h2 class="how-title">How it works</h2>
+      <p>Each move is a generic method call that returns a new type. The real TypeScript compiler runs in your browser and decides everything. The page only draws what it returns.</p>
+    </section>
+  </main>
+</body>
+</html>

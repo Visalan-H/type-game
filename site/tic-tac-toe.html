@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tic-tac-toe · type-game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./">type-game</a>
+    <a class="site-link" href="https://github.com/Visalan-H/type-game">GitHub</a>
+  </header>
+  <main class="game" data-phase="loading">
+    <section class="stage">
+      <h1 class="game-title">Tic-tac-toe</h1>
+      <p class="status" aria-live="polite"><span class="status-text"></span><span class="dots" aria-hidden="true"><span></span><span></span><span></span></span></p>
+      <div class="board" role="group" aria-label="Board"></div>
+      <div class="banner" data-tone="" role="status"></div>
+      <div class="controls">
+        <button class="button" type="button" data-action="undo">Undo</button>
+        <button class="button" type="button" data-action="reset">New game</button>
+      </div>
+    </section>
+    <section class="editor" id="editor" aria-label="Compiler view"></section>
+    <div class="overlay" role="status"><span class="spinner"></span><p>Downloading TypeScript…</p></div>
+    <div class="error" role="alert"><p data-error></p><button class="button" type="button" data-action="retry">Retry</button></div>
+  </main>
+  <script type="module" src="tic-tac-toe.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hangman · type-game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./">type-game</a>
+    <a class="site-link" href="https://github.com/Visalan-H/type-game">GitHub</a>
+  </header>
+  <main class="game" data-phase="loading">
+    <section class="stage">
+      <h1 class="game-title">Hangman</h1>
+      <div class="hearts" id="hearts" role="img"></div>
+      <div class="slots" id="slots"></div>
+      <div class="keyboard" id="keyboard" role="group" aria-label="Keyboard"></div>
+      <div class="confetti" id="confetti" aria-hidden="true"></div>
+      <div class="banner" data-tone="" role="status"></div>
+      <div class="controls">
+        <button class="button" type="button" data-action="undo">Undo</button>
+        <button class="button" type="button" data-action="reset">New game</button>
+      </div>
+    </section>
+    <section class="editor" id="editor" aria-label="Compiler view"></section>
+    <div class="overlay" role="status"><span class="spinner"></span><p>Downloading TypeScript…</p></div>
+    <div class="error" role="alert"><p data-error></p><button class="button" type="button" data-action="retry">Retry</button></div>
+  </main>
+  <script type="module" src="hangman.js"></script>
+</body>
+</html>
