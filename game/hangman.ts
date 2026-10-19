@@ -1,5 +1,37 @@
+// add .guess("") to line 4, then press ctrl+space inside the quotes
+// delete the last .guess() to undo
+
 const game = hangman()
 //    ^?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 type Letters = [
   "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
@@ -16,7 +48,7 @@ type ShiftBack<C extends string, L extends string[] = Letters> =
 type Unscramble<W extends string> =
   W extends `${infer C}${infer Rest}` ? `${ShiftBack<C>}${Unscramble<Rest>}` : ""
 
-type Reveal<Word extends string, Guessed extends string> =
+type Reveal<Word extends string, Guessed> =
   Word extends `${infer C}${infer Rest}`
     ? `${C extends Guessed ? C : "_"}${Rest extends "" ? "" : " "}${Reveal<Rest, Guessed>}`
     : ""
@@ -29,7 +61,7 @@ type Tuple<N extends number, Acc extends unknown[] = []> =
 
 type LoseOne<Left extends unknown[]> = Left extends [unknown, ...infer Rest] ? Rest : []
 
-type Lives<Word extends string, Guessed extends string, L extends string[] = Letters, Left extends unknown[] = Tuple<6>> =
+type Lives<Word extends string, Guessed, L extends string[] = Letters, Left extends unknown[] = Tuple<6>> =
   L extends [infer C extends string, ...infer Rest extends string[]]
     ? C extends Guessed
       ? C extends LettersOf<Word> ? Lives<Word, Guessed, Rest, Left> : Lives<Word, Guessed, Rest, LoseOne<Left>>
@@ -39,20 +71,20 @@ type Lives<Word extends string, Guessed extends string, L extends string[] = Let
 type Hearts<L extends unknown[]> =
   L extends [unknown, ...infer Rest] ? `♥${Hearts<Rest>}` : ""
 
-type Display<Word extends string, Guessed extends string> =
+type Display<Word extends string, Guessed> =
   Lives<Word, Guessed> extends [] ? `you lose! ${Word}`
   : Reveal<Word, Guessed> extends `${string}_${string}` ? `${Reveal<Word, Guessed>}  ${Hearts<Lives<Word, Guessed>>}`
   : `you win! ${Word}`
 
-type Choices<Word extends string, Guessed extends string> =
-  Display<Word, Guessed> extends `${string}_${string}` ? Exclude<Letter, Guessed> : Display<Word, Guessed>
+type Choices<Word extends string, Guessed> =
+  Display<Word, Guessed> extends `${string}_${string}` ? Exclude<Letter, Guessed> : { gameOver: Display<Word, Guessed> }
 
 type IsAny<T> = boolean extends (T extends never ? true : false) ? true : false
 
 type OneLetter<L, All = L> =
-  IsAny<L> extends true ? never : L extends unknown ? ([All] extends [L] ? L : never) : never
+  IsAny<L> extends true ? never : L extends Letter ? ([All] extends [L] ? L : never) : never
 
-interface Game<View extends string, Guessed extends string, Scrambled extends string> {
+interface Game<View extends string, Guessed, Scrambled extends string> {
   screen: View
   guess<L extends Choices<Unscramble<Scrambled>, Guessed>>(
     letter: L,

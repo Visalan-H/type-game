@@ -1,4 +1,7 @@
-const game = ticTacToe().play(5)
+// add .play("") to line 4, then press ctrl+space inside the quotes
+// delete the last .play() to undo
+
+const game = ticTacToe().play("5")
 
 game.top
 //   ^?
@@ -9,13 +12,42 @@ game.bottom
 game.status
 //   ^?
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 type Mark = "X" | "O"
 
-type Board = (number | Mark)[]
+type Board = string[]
 
-type Start = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+type Start = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
-type Order = [5, 1, 3, 7, 9, 2, 4, 6, 8]
+type Order = ["5", "1", "3", "7", "9", "2", "4", "6", "8"]
 
 type Lines = [
   [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -25,7 +57,7 @@ type Lines = [
 
 type Other<M extends Mark> = M extends "X" ? "O" : "X"
 
-type Free<B extends Board> = Extract<B[number], number>
+type Free<B extends Board> = Exclude<B[number], Mark>
 
 type Place<B extends Board, C, M extends Mark> = { [K in keyof B]: B[K] extends C ? M : B[K] }
 
@@ -44,7 +76,7 @@ type Outcome<B extends Board, M extends Mark, Stop = M> =
 type StopAt<M extends Mark, Best> = Best extends "draw" ? M | "draw" : M
 
 type Search<B extends Board, M extends Mark, Stop, Left = Order, Best = Other<M>> =
-  Left extends [infer C extends number, ...infer Rest]
+  Left extends [infer C extends string, ...infer Rest]
     ? C extends Free<B>
       ? Outcome<Place<B, C, M>, Other<M>, StopAt<Other<M>, Best>> extends infer Result
         ? Result extends Stop ? Result : Search<B, M, Stop, Rest, Result extends "draw" ? "draw" : Best>
@@ -54,12 +86,12 @@ type Search<B extends Board, M extends Mark, Stop, Left = Order, Best = Other<M>
 
 type Score<B extends Board> = Wins<B, "O"> extends true ? "win now" : Outcome<B, "X">
 
-type CanWinNow<B extends Board, C = Free<B>> = C extends number ? Wins<Place<B, C, "O">, "O"> : never
+type CanWinNow<B extends Board, C = Free<B>> = C extends string ? Wins<Place<B, C, "O">, "O"> : never
 
 type Goal<B extends Board> = true extends CanWinNow<B> ? "win now" : Outcome<B, "O">
 
 type Reply<B extends Board, Target = Goal<B>, Left = Order> =
-  Left extends [infer C extends number, ...infer Rest]
+  Left extends [infer C extends string, ...infer Rest]
     ? C extends Free<B>
       ? Score<Place<B, C, "O">> extends Target ? C : Reply<B, Target, Rest>
       : Reply<B, Target, Rest>
@@ -71,7 +103,7 @@ type Status<B extends Board> =
   : Full<B> extends true ? "draw"
   : "your move"
 
-type Moves<B extends Board> = Status<B> extends "your move" ? Free<B> : Status<B>
+type Moves<B extends Board> = Status<B> extends "your move" ? Free<B> : { gameOver: Status<B> }
 
 type Respond<B extends Board> = Status<B> extends "your move" ? Place<B, Reply<B>, "O"> : B
 
@@ -80,7 +112,7 @@ type Turn<B extends Board, C> = [C] extends [never] ? B : Respond<Place<B, C, "X
 type IsAny<T> = boolean extends (T extends never ? true : false) ? true : false
 
 type OneCell<C, All = C> =
-  IsAny<C> extends true ? never : C extends unknown ? ([All] extends [C] ? C : never) : never
+  IsAny<C> extends true ? never : C extends string ? ([All] extends [C] ? C : never) : never
 
 type Row<B extends Board, I extends number, J extends number, K extends number> = `${B[I]} │ ${B[J]} │ ${B[K]}`
 
