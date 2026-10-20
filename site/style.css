@@ -354,6 +354,7 @@ button {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 24px;
+  max-width: 36rem;
 }
 
 .card {
