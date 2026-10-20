@@ -1,31 +1,17 @@
+import LZString from "./lz-string.js"
+
 const ENGINE_URL = new URL("engine.js", import.meta.url)
-const LZ_STRING_URL = "https://cdn.jsdelivr.net/npm/lz-string@1.5.0/+esm"
 const PLAYGROUND_URL = "https://www.typescriptlang.org/play/#code/"
 const CHAIN_LINE_INDEX = 3
 const HASH_SEPARATOR = ","
 
 const TYPESCRIPT_DOWNLOAD_ERROR = "Could not download TypeScript from the CDN. Check your connection and try again."
 const WORKER_REPLY_ERROR = "The compiler sent a reply the page could not read."
-const LZ_STRING_ERROR = "Could not download the Playground link library from the CDN."
 
-let lzStringLoad = null
-
-function loadLzString() {
-  lzStringLoad ??= import(LZ_STRING_URL).then(
-    (module) => module.default,
-    () => {
-      lzStringLoad = null
-      throw new Error(LZ_STRING_ERROR)
-    },
-  )
-  return lzStringLoad
-}
-
-export async function playgroundUrl(source, chain) {
-  const lzString = await loadLzString()
+export function playgroundUrl(source, chain) {
   const lines = source.split("\n")
   lines[CHAIN_LINE_INDEX] = chain
-  return PLAYGROUND_URL + lzString.compressToEncodedURIComponent(lines.join("\n"))
+  return PLAYGROUND_URL + LZString.compressToEncodedURIComponent(lines.join("\n"))
 }
 
 export function createEngine() {
@@ -106,7 +92,7 @@ export function createSession({ game, allowed, root, present, render }) {
     const response = await engine.run(game, moves)
     if (!response.ok) return null
     const source = await loadSource()
-    const href = await playgroundUrl(source, response.chain)
+    const href = playgroundUrl(source, response.chain)
     const { state: gameState, chain, ms, over, reads } = response
     return { state: gameState, chain, ms, over, reads, href, source }
   }
